@@ -1,14 +1,27 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "MissionManager.h"
+#include "MapCanvas.h"
 #include <QMainWindow>
+#include <QLabel>
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    explicit MainWindow(QWidget* parent = nullptr);
+
+private slots:
+    void onWaypointAdded(QPointF pos);
+    void onWaypointRemoved();
+    void onUpload();
+    void onClear();
+
+private:
+    void updateStatus();
+    MissionManager m_mission;
+    MapCanvas*     m_canvas;
+    QLabel*        m_status;
 };
+
 #endif // MAINWINDOW_H

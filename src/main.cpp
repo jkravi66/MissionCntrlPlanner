@@ -4,8 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    app.setApplicationName("MCT Mission Planner");
     MainWindow w;
     w.show();
-    return QCoreApplication::exec();
+    return app.exec();
 }

@@ -74,7 +74,7 @@ std::vector<Waypoint> MissionManager::buildTrajectory() const {
 // [LLR-014, LLR-030, LLR-031]
 void MissionManager::uploadMission() const {
     if (!isValid()) {
-        std::cout << "[ERROR] " << validationError().toStdString() << "\n";
+        std::cout << "[ERROR] " << validationError().toStdString() << "\n" << std::endl;
         return;
     }
 
@@ -89,5 +89,5 @@ void MissionManager::uploadMission() const {
                   << "  y=" << std::setw(8) << wp.y
                   << "  alt=" << wp.altitude << "m\n";
     }
-    std::cout << "--- End (" << traj.size() << " waypoints) ---\n";
+    std::cout << "--- End (" << traj.size() << " waypoints) ---\n" << std::endl;
 }

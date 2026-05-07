@@ -47,3 +47,25 @@ QString MissionManager::validationError() const {
     }
     return {};
 }
+
+// [LLR-012, LLR-013]
+std::vector<Waypoint> MissionManager::buildTrajectory() const {
+    std::vector<Waypoint> traj;
+    if (m_points.empty()) return traj;
+
+    int idx = 0;
+
+    // TAKEOFF at first point, ground level
+    traj.emplace_back(idx++, WaypointType::TAKEOFF,
+                      m_points.front().first, m_points.front().second);
+
+    // All user points become CRUISE at 50m
+    for (const auto& p : m_points)
+        traj.emplace_back(idx++, WaypointType::CRUISE, p.first, p.second);
+
+    // LAND at last point, ground level
+    traj.emplace_back(idx++, WaypointType::LAND,
+                      m_points.back().first, m_points.back().second);
+
+    return traj;
+}

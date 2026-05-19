@@ -1,7 +1,6 @@
 #ifndef MAPENGINE_H
 #define MAPENGINE_H
 
-
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
@@ -17,7 +16,6 @@ public:
 
     void removeLastWaypoint();
     void clearAll();
-    int  waypointCount() const;
 
 signals:
     void waypointAdded(QPointF pos);

@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
     m_status = new QLabel("Click the map to place waypoints.");
     statusBar()->addWidget(m_status);
 
-    // --- Log panel (right side dock) ---
+    // --- Log panel  ---
     setupLogPanel();
 
     logMessage("Mission Planner started. Click the map to place waypoints.");
@@ -71,10 +71,7 @@ void MainWindow::setupLogPanel() {
     m_logView->setFont(QFont("Courier New", 9));
     m_logView->setStyleSheet(
         "QTextEdit {"
-        "  background-color: #454560;"   /*#2b2b3c
-#38384e
-#454560
-#525272*/
+        "  background-color: #454560;"
         "  color: #d4d4d4;"
         "  border: 1px solid #3a3a50;"
         "}"

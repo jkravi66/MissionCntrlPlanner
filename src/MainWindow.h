@@ -27,8 +27,6 @@ private:
     MissionManager m_mission;
     MapEngine*     m_mapengine;
     QLabel*        m_status;
-
-    // Log panel
     QDockWidget*    m_logDock;
     QTextEdit*      m_logView;
 };

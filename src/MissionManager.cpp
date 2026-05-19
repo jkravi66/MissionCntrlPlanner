@@ -1,7 +1,5 @@
 #include "MissionManager.h"
 #include <cmath>
-#include <iostream>
-#include <iomanip>
 
 void MissionManager::addWaypoint(double x, double y) {
     m_points.emplace_back(x, y);
@@ -20,8 +18,7 @@ const std::vector<std::pair<double,double>>& MissionManager::rawPoints() const {
     return m_points;
 }
 
-
-// [LLR-010, LLR-011]
+// [SDD-010 , SDD-011 ]
 bool MissionManager::isValid() const {
     if (m_points.size() < 2)
         return false;
@@ -35,6 +32,7 @@ bool MissionManager::isValid() const {
     return true;
 }
 
+// [SDD-014]
 QString MissionManager::validationError() const {
     if (m_points.size() < 2)
         return QString("Need at least 2 waypoints, have %1.").arg(m_points.size());
@@ -48,7 +46,7 @@ QString MissionManager::validationError() const {
     return {};
 }
 
-// [LLR-012, LLR-013]
+// [SDD-012, SDD-013]
 std::vector<Waypoint> MissionManager::buildTrajectory() const {
     std::vector<Waypoint> traj;
     if (m_points.empty()) return traj;

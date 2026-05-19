@@ -1,17 +1,16 @@
 #ifndef WAYPOINT_H
 #define WAYPOINT_H
 
-
 #pragma once
 
-
-// add requirements tracebality
+// [SDD-002]
 enum class WaypointType {
     TAKEOFF,
     CRUISE,
     LAND
 };
 
+// [SDD-002]
 inline const char* typeToString(WaypointType t) {
     switch(t) {
     case WaypointType::TAKEOFF: return "TAKEOFF";
@@ -21,14 +20,13 @@ inline const char* typeToString(WaypointType t) {
     return "UNKNOWN";
 }
 
-
+// [SDD-001, SDD-003, SDD-004, SDD-005]
 struct Waypoint {
     int          index;
     WaypointType type;
     double       x;
     double       y;
     double       altitude;
-
 
     static double defaultAltitude(WaypointType t) {
         return (t == WaypointType::CRUISE) ? 50.0 : 0.0;

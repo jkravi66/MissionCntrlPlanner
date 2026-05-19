@@ -1,6 +1,4 @@
 #include "MapEngine.h"
-
-#include "MapEngine.h"
 #include <QMouseEvent>
 #include <QPen>
 #include <QBrush>
@@ -27,6 +25,7 @@ void MapEngine::drawGrid() {
     }
 }
 
+// [SDD-021]
 void MapEngine::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         QGraphicsView::mousePressEvent(event);
@@ -62,6 +61,7 @@ void MapEngine::wheelEvent(QWheelEvent* event) {
     scale(factor, factor);
 }
 
+// [SDD-024]
 void MapEngine::removeLastWaypoint() {
     if (m_markers.empty()) return;
 
@@ -79,13 +79,10 @@ void MapEngine::removeLastWaypoint() {
     emit waypointRemoved();
 }
 
+// [SDD-025]
 void MapEngine::clearAll() {
     while (!m_markers.empty())
         removeLastWaypoint();
-}
-
-int MapEngine::waypointCount() const {
-    return static_cast<int>(m_markers.size());
 }
 
 void MapEngine::redrawLines() {
@@ -102,6 +99,7 @@ void MapEngine::redrawLines() {
     }
 }
 
+// [SDD-023]
 void MapEngine::refreshColors() {
     if (m_markers.empty()) return;
     for (size_t i = 0; i < m_markers.size(); ++i) {

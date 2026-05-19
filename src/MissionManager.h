@@ -22,7 +22,6 @@ public:
     QString validationError() const;
 
     std::vector<Waypoint> buildTrajectory() const;  // [LLR-012, LLR-013]
-    void uploadMission() const;                      // [LLR-014]
 
     static constexpr double DUPLICATE_THRESHOLD = 0.001;
 

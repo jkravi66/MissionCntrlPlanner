@@ -5,6 +5,9 @@
 #include "MapEngine.h"
 #include <QMainWindow>
 #include <QLabel>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QDockWidget>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -19,9 +22,15 @@ private slots:
 
 private:
     void updateStatus();
+    void setupLogPanel();
+    void logMessage(const QString& msg);
     MissionManager m_mission;
     MapEngine*     m_mapengine;
     QLabel*        m_status;
+
+    // Log panel
+    QDockWidget*    m_logDock;
+    QTextEdit*      m_logView;
 };
 
 #endif // MAINWINDOW_H

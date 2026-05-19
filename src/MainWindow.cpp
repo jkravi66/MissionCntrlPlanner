@@ -7,12 +7,21 @@
 #include <QPushButton>
 #include <QDateTime>
 #include <QScrollBar>
+#include <QIcon>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     setWindowTitle("Mission Planner");
     resize(1400, 650);
+
+    QIcon icon(":/icons/Avilus_Logo.svg");
+    if (icon.isNull()) {
+        qDebug() << "Icon failed to load — check .qrc path and SVG module";
+    } else {
+        setWindowIcon(icon);
+        qDebug() << "Icon loaded successfully";
+    }
 
     // --- centre ---
     m_mapengine = new MapEngine(this);
@@ -129,6 +138,7 @@ void MainWindow::onWaypointRemoved() {
     updateStatus();
 }
 
+// [SDD-030, SDD-031]
 void MainWindow::onUpload() {
     if (!m_mission.isValid()) {
         // Log the error in red

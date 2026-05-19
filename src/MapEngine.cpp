@@ -3,6 +3,7 @@
 #include <QPen>
 #include <QBrush>
 
+// [SDD-020]
 MapEngine::MapEngine(QWidget* parent)
     : QGraphicsView(parent)
     , m_scene(new QGraphicsScene(this))
@@ -56,6 +57,7 @@ void MapEngine::mousePressEvent(QMouseEvent* event) {
     emit waypointAdded(pos);
 }
 
+// [SDD-021]
 void MapEngine::wheelEvent(QWheelEvent* event) {
     double factor = (event->angleDelta().y() > 0) ? 1.15 : 0.87;
     scale(factor, factor);
@@ -85,6 +87,7 @@ void MapEngine::clearAll() {
         removeLastWaypoint();
 }
 
+// [SDD-022]
 void MapEngine::redrawLines() {
     for (auto* l : m_lines) { m_scene->removeItem(l); delete l; }
     m_lines.clear();

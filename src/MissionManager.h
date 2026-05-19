@@ -18,12 +18,12 @@ public:
 
     const std::vector<std::pair<double,double>>& rawPoints() const;
 
-    bool    isValid() const;           // [LLR-010, LLR-011]
-    QString validationError() const;
+    bool    isValid() const;                        // [SDD-010 , SDD-011 ]
+    QString validationError() const;                // [SDD-014]
 
-    std::vector<Waypoint> buildTrajectory() const;  // [LLR-012, LLR-013]
+    std::vector<Waypoint> buildTrajectory() const;  // [SDD-012, SDD-013]
 
-    static constexpr double DUPLICATE_THRESHOLD = 0.001;
+    static constexpr double DUPLICATE_THRESHOLD = 0.001;   // [SDD-011]
 
 private:
     std::vector<std::pair<double,double>> m_points;

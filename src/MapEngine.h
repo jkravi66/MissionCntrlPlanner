@@ -9,11 +9,11 @@
 #include <QPointF>
 #include <vector>
 
-class MapCanvas : public QGraphicsView {
+class MapEngine : public QGraphicsView {
     Q_OBJECT
 
 public:
-    explicit MapCanvas(QWidget* parent = nullptr);
+    explicit MapEngine(QWidget* parent = nullptr);
 
     void removeLastWaypoint();
     void clearAll();

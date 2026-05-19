@@ -5,7 +5,7 @@
 #include <QPen>
 #include <QBrush>
 
-MapCanvas::MapCanvas(QWidget* parent)
+MapEngine::MapEngine(QWidget* parent)
     : QGraphicsView(parent)
     , m_scene(new QGraphicsScene(this))
 {
@@ -16,7 +16,7 @@ MapCanvas::MapCanvas(QWidget* parent)
     drawGrid();
 }
 
-void MapCanvas::drawGrid() {
+void MapEngine::drawGrid() {
     QPen minor(QColor(55, 60, 75), 0.5);
     QPen major(QColor(90, 100, 120), 1.0);
 
@@ -27,7 +27,7 @@ void MapCanvas::drawGrid() {
     }
 }
 
-void MapCanvas::mousePressEvent(QMouseEvent* event) {
+void MapEngine::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         QGraphicsView::mousePressEvent(event);
         return;
@@ -57,12 +57,12 @@ void MapCanvas::mousePressEvent(QMouseEvent* event) {
     emit waypointAdded(pos);
 }
 
-void MapCanvas::wheelEvent(QWheelEvent* event) {
+void MapEngine::wheelEvent(QWheelEvent* event) {
     double factor = (event->angleDelta().y() > 0) ? 1.15 : 0.87;
     scale(factor, factor);
 }
 
-void MapCanvas::removeLastWaypoint() {
+void MapEngine::removeLastWaypoint() {
     if (m_markers.empty()) return;
 
     if (!m_lines.empty()) {
@@ -79,16 +79,16 @@ void MapCanvas::removeLastWaypoint() {
     emit waypointRemoved();
 }
 
-void MapCanvas::clearAll() {
+void MapEngine::clearAll() {
     while (!m_markers.empty())
         removeLastWaypoint();
 }
 
-int MapCanvas::waypointCount() const {
+int MapEngine::waypointCount() const {
     return static_cast<int>(m_markers.size());
 }
 
-void MapCanvas::redrawLines() {
+void MapEngine::redrawLines() {
     for (auto* l : m_lines) { m_scene->removeItem(l); delete l; }
     m_lines.clear();
 
@@ -102,7 +102,7 @@ void MapCanvas::redrawLines() {
     }
 }
 
-void MapCanvas::refreshColors() {
+void MapEngine::refreshColors() {
     if (m_markers.empty()) return;
     for (size_t i = 0; i < m_markers.size(); ++i) {
         QColor c;

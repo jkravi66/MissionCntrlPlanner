@@ -20,7 +20,7 @@ private slots:
 private:
     void updateStatus();
     MissionManager m_mission;
-    MapCanvas*     m_canvas;
+    MapEngine*     m_mapengine;
     QLabel*        m_status;
 };
 

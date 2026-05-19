@@ -7,13 +7,13 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     setWindowTitle("Mission Planner");
-    resize(900, 650);
+    resize(1200, 650);
 
-    m_canvas = new MapCanvas(this);
-    setCentralWidget(m_canvas);
+    m_mapengine = new MapEngine(this);
+    setCentralWidget(m_mapengine);
 
-    connect(m_canvas, &MapCanvas::waypointAdded,   this, &MainWindow::onWaypointAdded);
-    connect(m_canvas, &MapCanvas::waypointRemoved, this, &MainWindow::onWaypointRemoved);
+    connect(m_mapengine, &MapEngine::waypointAdded,   this, &MainWindow::onWaypointAdded);
+    connect(m_mapengine, &MapEngine::waypointRemoved, this, &MainWindow::onWaypointRemoved);
 
     QToolBar* tb = addToolBar("Mission");
     tb->setMovable(false);
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget* parent)
     tb->addSeparator();
 
     auto* undo = tb->addAction("Remove Last");
-    connect(undo, &QAction::triggered, m_canvas, &MapCanvas::removeLastWaypoint);
+    connect(undo, &QAction::triggered, m_mapengine, &MapEngine::removeLastWaypoint);
 
     auto* clear = tb->addAction("Clear All");
     connect(clear, &QAction::triggered, this, &MainWindow::onClear);
@@ -48,7 +48,7 @@ void MainWindow::onUpload() {
 }
 
 void MainWindow::onClear() {
-    m_canvas->clearAll();
+    m_mapengine->clearAll();
     m_mission.clear();
     updateStatus();
 }

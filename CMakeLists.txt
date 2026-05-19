@@ -28,7 +28,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/main.cpp src/MainWindow.cpp src/MainWindow.h
         src/Waypoint.h
         src/MissionManager.h src/MissionManager.cpp
-        src/MapCanvas.h src/MapCanvas.cpp
+        src/MapEngine.h src/MapEngine.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET missionPlanner APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

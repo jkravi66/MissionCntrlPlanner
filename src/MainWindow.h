@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include "MissionManager.h"
-#include "MapCanvas.h"
+#include "MapEngine.h"
 #include <QMainWindow>
 #include <QLabel>
 

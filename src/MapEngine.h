@@ -1,5 +1,5 @@
-#ifndef MAPCANVAS_H
-#define MAPCANVAS_H
+#ifndef MAPENGINE_H
+#define MAPENGINE_H
 
 
 #include <QGraphicsView>
@@ -38,4 +38,4 @@ private:
 
     static constexpr double MARKER_R = 6.0;
 };
-#endif // MAPCANVAS_H
+#endif // MAPENGINE_H

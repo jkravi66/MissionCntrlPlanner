@@ -1,6 +1,6 @@
-#include "MapCanvas.h"
+#include "MapEngine.h"
 
-#include "MapCanvas.h"
+#include "MapEngine.h"
 #include <QMouseEvent>
 #include <QPen>
 #include <QBrush>

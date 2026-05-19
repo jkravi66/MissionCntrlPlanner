@@ -6,7 +6,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    setWindowTitle("MCT – 2D Mission Planner");
+    setWindowTitle("Mission Planner");
     resize(900, 650);
 
     m_canvas = new MapCanvas(this);

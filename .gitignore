@@ -80,5 +80,7 @@ CMakeLists.txt.user*
 .pch/
 .rcc/
 .uic/
+.vs/
 /build*/
 /.qtcreator/
+out/

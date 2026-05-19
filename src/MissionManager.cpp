@@ -29,7 +29,7 @@ bool MissionManager::isValid() const {
     for (size_t i = 0; i + 1 < m_points.size(); ++i) {
         double dx = m_points[i].first  - m_points[i+1].first;
         double dy = m_points[i].second - m_points[i+1].second;
-        if (std::sqrt(dx*dx + dy*dy) < DUPLICATE_THRESHOLD)
+        if (std::sqrt(dx*dx + dy*dy) < DUPLICATE_THRESHOLD)  // check if the same point
             return false;
     }
     return true;
@@ -42,7 +42,7 @@ QString MissionManager::validationError() const {
     for (size_t i = 0; i + 1 < m_points.size(); ++i) {
         double dx = m_points[i].first  - m_points[i+1].first;
         double dy = m_points[i].second - m_points[i+1].second;
-        if (std::sqrt(dx*dx + dy*dy) < DUPLICATE_THRESHOLD)
+        if (std::sqrt(dx*dx + dy*dy) < DUPLICATE_THRESHOLD)  // check if the same point
             return QString("Waypoints %1 and %2 are too close together.").arg(i).arg(i+1);
     }
     return {};

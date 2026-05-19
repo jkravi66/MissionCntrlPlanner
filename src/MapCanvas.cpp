@@ -106,9 +106,9 @@ void MapCanvas::refreshColors() {
     if (m_markers.empty()) return;
     for (size_t i = 0; i < m_markers.size(); ++i) {
         QColor c;
-        if      (i == 0)                        c = QColor(50, 200, 80);
-        else if (i == m_markers.size() - 1)     c = QColor(220, 55, 55);
-        else                                     c = QColor(70, 130, 220);
+        if      (i == 0)                        c = QColor(Qt::green);
+        else if (i == m_markers.size() - 1)     c = QColor(Qt::red);
+        else                                     c = QColor(Qt::blue);
         m_markers[i]->setBrush(QBrush(c));
     }
 }

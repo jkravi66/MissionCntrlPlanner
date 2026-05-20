@@ -76,3 +76,10 @@ install(TARGETS missionPlanner
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(missionPlanner)
 endif()
+
+# Enable CTest and add the headless test sub-directory.
+enable_testing()
+add_subdirectory(missionPlanTest)
+
+
+

@@ -16,12 +16,7 @@ MainWindow::MainWindow(QWidget* parent)
     resize(1400, 650);
 
     QIcon icon(":/icons/Avilus_Logo.svg");
-    if (icon.isNull()) {
-        qDebug() << "Icon failed to load — check .qrc path and SVG module";
-    } else {
-        setWindowIcon(icon);
-        qDebug() << "Icon loaded successfully";
-    }
+    setWindowIcon(icon);
 
     // --- centre ---
     m_mapengine = new MapEngine(this);
@@ -31,18 +26,18 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_mapengine, &MapEngine::waypointRemoved, this, &MainWindow::onWaypointRemoved);
 
     // --- Toolbar ---
-    QToolBar* tb = addToolBar("Mission");
-    tb->setMovable(false);
+    QToolBar* toolBar = addToolBar("Mission");
+    toolBar->setMovable(false);
 
-    auto* upload = tb->addAction("Upload Mission");
+    auto* upload = toolBar->addAction("Upload Mission");
     connect(upload, &QAction::triggered, this, &MainWindow::onUpload);
 
-    tb->addSeparator();
+    toolBar->addSeparator();
 
-    auto* undo = tb->addAction("Remove Last");
+    auto* undo = toolBar->addAction("Remove Last");
     connect(undo, &QAction::triggered, m_mapengine, &MapEngine::removeLastWaypoint);
 
-    auto* clear = tb->addAction("Clear All");
+    auto* clear = toolBar->addAction("Clear All");
     connect(clear, &QAction::triggered, this, &MainWindow::onClear);
 
     // --- Status bar ---
@@ -110,6 +105,7 @@ void MainWindow::logMessage(const QString& msg) {
         QString("<span style='color:#6a9fb5;'>[%1]</span> %2")
             .arg(time, msg.toHtmlEscaped())
         );
+
     // Auto-scroll to bottom
     m_logView->verticalScrollBar()->setValue(
         m_logView->verticalScrollBar()->maximum()
@@ -160,9 +156,9 @@ void MainWindow::onUpload() {
         // Colour code each phase
         QString color;
         switch (wp.type) {
-        case WaypointType::TAKEOFF: color = "#e5c07b"; break;
-        case WaypointType::CRUISE:  color = "#FAFAFA"; break;
-        case WaypointType::LAND:    color = "#e5c07b"; break;
+        case WaypointType::TAKEOFF: color = "#e5c07b"; break; //Green
+        case WaypointType::CRUISE:  color = "#FAFAFA"; break; //Blue
+        case WaypointType::LAND:    color = "#e5c07b"; break; //Red
         }
 
         QString line = QString("[%1] %2  x=%3  y=%4  alt=%5m")

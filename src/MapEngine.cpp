@@ -3,7 +3,11 @@
 #include <QPen>
 #include <QBrush>
 
-// [SDD-020]
+// ---------------------------------------------------------------------------
+// [SDD-020] → SRD-001, SYS-006
+// MapEngine extends QGraphicsView and owns a QGraphicsScene.
+// The constructor draws the background grid and sets up the scene rectangle.
+// ---------------------------------------------------------------------------
 MapEngine::MapEngine(QWidget* parent)
     : QGraphicsView(parent)
     , m_scene(new QGraphicsScene(this))
@@ -15,6 +19,9 @@ MapEngine::MapEngine(QWidget* parent)
     drawGrid();
 }
 
+// ---------------------------------------------------------------------------
+// [SDD-020] → SRD-001  Render a 2D canvas with a visible grid.
+// ---------------------------------------------------------------------------
 void MapEngine::drawGrid() {
     QPen minor(QColor(55, 60, 75), 0.5);
     QPen major(QColor(90, 100, 120), 1.0);
@@ -26,7 +33,11 @@ void MapEngine::drawGrid() {
     }
 }
 
-// [SDD-021]
+// ---------------------------------------------------------------------------
+// [SDD-021] → SRD-002, SYS-001
+// mousePressEvent converts screen coordinates to scene coordinates and
+// places a circular marker, then emits waypointAdded(QPointF).
+// ---------------------------------------------------------------------------
 void MapEngine::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         QGraphicsView::mousePressEvent(event);
@@ -57,13 +68,19 @@ void MapEngine::mousePressEvent(QMouseEvent* event) {
     emit waypointAdded(pos);
 }
 
-// [SDD-021]
+// ---------------------------------------------------------------------------
+// [SDD-021] → SRD-002  Support mouse-wheel zoom on the 2D canvas.
+// ---------------------------------------------------------------------------
 void MapEngine::wheelEvent(QWheelEvent* event) {
     double factor = (event->angleDelta().y() > 0) ? 1.15 : 0.87;
     scale(factor, factor);
 }
 
-// [SDD-024]
+// ---------------------------------------------------------------------------
+// [SDD-024] → SRD-005
+// removeLastWaypoint removes the last marker ellipse and the connecting
+// trajectory line, then refreshes marker colours and emits waypointRemoved().
+// ---------------------------------------------------------------------------
 void MapEngine::removeLastWaypoint() {
     if (m_markers.empty()) return;
 
@@ -81,13 +98,21 @@ void MapEngine::removeLastWaypoint() {
     emit waypointRemoved();
 }
 
-// [SDD-025]
+// ---------------------------------------------------------------------------
+// [SDD-025] → SRD-006
+// clearAll removes all markers and trajectory lines by delegating to
+// removeLastWaypoint() until the scene is empty.
+// ---------------------------------------------------------------------------
 void MapEngine::clearAll() {
     while (!m_markers.empty())
         removeLastWaypoint();
 }
 
-// [SDD-022]
+// ---------------------------------------------------------------------------
+// [SDD-022] → SRD-003
+// redrawLines reconstructs all trajectory line segments connecting
+// consecutive waypoint markers.
+// ---------------------------------------------------------------------------
 void MapEngine::redrawLines() {
     for (auto* l : m_lines) { m_scene->removeItem(l); delete l; }
     m_lines.clear();
@@ -102,7 +127,11 @@ void MapEngine::redrawLines() {
     }
 }
 
-// [SDD-023]
+// ---------------------------------------------------------------------------
+// [SDD-023] → SRD-004
+// refreshColors colour-codes markers: first = green (start), last = red (end),
+// all others = blue (intermediate).
+// ---------------------------------------------------------------------------
 void MapEngine::refreshColors() {
     if (m_markers.empty()) return;
     for (size_t i = 0; i < m_markers.size(); ++i) {
@@ -113,3 +142,5 @@ void MapEngine::refreshColors() {
         m_markers[i]->setBrush(QBrush(c));
     }
 }
+
+// ---------------------------------------------------------------------------

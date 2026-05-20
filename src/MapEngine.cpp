@@ -109,7 +109,7 @@ void MapEngine::refreshColors() {
         QColor c;
         if      (i == 0)                        c = QColor(Qt::green);
         else if (i == m_markers.size() - 1)     c = QColor(Qt::red);
-        else                                     c = QColor(Qt::blue);
+        else                                    c = QColor(Qt::blue);
         m_markers[i]->setBrush(QBrush(c));
     }
 }

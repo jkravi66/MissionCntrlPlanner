@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 // ---------------------------------------------------------------------------
+// SDD-030, SDD-031, SDD-032
 // setupLogPanel - Builds a QDockWidget on the right side containing a
 // read-only text area and a Clear Log button at the bottom.
 // ---------------------------------------------------------------------------

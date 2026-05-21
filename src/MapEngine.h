@@ -14,21 +14,21 @@ class MapEngine : public QGraphicsView {
 public:
     explicit MapEngine(QWidget* parent = nullptr);
 
-    void removeLastWaypoint();
-    void clearAll();
+    void removeLastWaypoint();   // SDD-024
+    void clearAll();             // SDD-025
 
 signals:
     void waypointAdded(QPointF pos);
     void waypointRemoved();
 
 protected:
-    void mousePressEvent(QMouseEvent* event) override;
-    void wheelEvent(QWheelEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;  // SDD-021
+    void wheelEvent(QWheelEvent* event) override;       // SDD-021
 
 private:
-    void drawGrid();
-    void redrawLines();
-    void refreshColors();
+    void drawGrid();            // SDD-020
+    void redrawLines();         // SDD-022
+    void refreshColors();       // SDD-023
 
     QGraphicsScene*                    m_scene;
     std::vector<QGraphicsEllipseItem*> m_markers;

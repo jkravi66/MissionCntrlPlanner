@@ -3,7 +3,7 @@
 
 #pragma once
 
-// [SDD-002] → SRD-011, SRD-012
+// SDD-002
 // WaypointType enum defines the three mission phases for a VTOL trajectory.
 enum class WaypointType {
     TAKEOFF,
@@ -11,7 +11,7 @@ enum class WaypointType {
     LAND
 };
 
-// [SDD-002]
+// SDD-002
 inline const char* typeToString(WaypointType t) {
     switch(t) {
     case WaypointType::TAKEOFF: return "TAKEOFF";
@@ -21,10 +21,10 @@ inline const char* typeToString(WaypointType t) {
     return "UNKNOWN";
 }
 
-// [SDD-001] → SRD-010
-// [SDD-003] → SRD-013  CRUISE altitude initialised to 50.0 m
-// [SDD-004] → SRD-011  TAKEOFF altitude initialised to 0.0 m (ground-level departure)
-// [SDD-005] → SRD-012  LAND altitude initialised to 0.0 m (ground-level arrival)
+// SDD-001
+// SDD-003 CRUISE altitude initialised to 50.0 m
+// SDD-004 TAKEOFF altitude initialised to 0.0 m (ground-level departure)
+// SDD-005 LAND altitude initialised to 0.0 m (ground-level arrival)
 struct Waypoint {
     int          index;
     WaypointType type;
@@ -32,7 +32,7 @@ struct Waypoint {
     double       y;
     double       altitude;
 
-    // [SDD-003, SDD-004, SDD-005]
+    // SDD-003, SDD-004, SDD-005
     static double defaultAltitude(WaypointType t) {
         return (t == WaypointType::CRUISE) ? 50.0 : 0.0;
     }

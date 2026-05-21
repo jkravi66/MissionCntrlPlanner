@@ -17,12 +17,12 @@ public:
 private slots:
     void onWaypointAdded(QPointF pos);
     void onWaypointRemoved();
-    void onUpload();
-    void onClear();
+    void onUpload();            // SDD-030, SDD-031, SDD-032, SDD-041
+    void onClear();             // SDD-043
 
 private:
-    void updateStatus();
-    void setupLogPanel();
+    void updateStatus();        // SDD-051, SDD-052, SDD-053, SDD-054
+    void setupLogPanel();       // SDD-030, SDD-031, SDD-032
     void logMessage(const QString& msg);
     MissionManager m_mission;
     MapEngine*     m_mapengine;

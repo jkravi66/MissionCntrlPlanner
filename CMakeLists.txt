@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ── Qt packages ──────────────────────────────────────────────────────────────
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Svg)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Svg)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Svg)
 
 # ── Source files ─────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ else()
     endif()
 endif()
 
-# ── Resources — ONE registration only ────────────────────────────────────────
+# ── Resources —  ────────────────────────────────────────
 qt_add_resources(missionPlanner "app_resources"
     PREFIX "/icons"
     BASE   "resources/icons"

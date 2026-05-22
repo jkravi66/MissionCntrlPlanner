@@ -34,7 +34,7 @@ void MapEngine::drawGrid() {
 }
 
 // ---------------------------------------------------------------------------
-// [SDD-021] → SRD-002, SYS-001
+// [SDD-021, SDD-022] → SRD-002, SRD-003, SYS-001
 // mousePressEvent converts screen coordinates to scene coordinates and
 // places a circular marker, then emits waypointAdded(QPointF).
 // ---------------------------------------------------------------------------
@@ -106,25 +106,6 @@ void MapEngine::removeLastWaypoint() {
 void MapEngine::clearAll() {
     while (!m_markers.empty())
         removeLastWaypoint();
-}
-
-// ---------------------------------------------------------------------------
-// [SDD-022] → SRD-003
-// redrawLines reconstructs all trajectory line segments connecting
-// consecutive waypoint markers.
-// ---------------------------------------------------------------------------
-void MapEngine::redrawLines() {
-    for (auto* l : m_lines) { m_scene->removeItem(l); delete l; }
-    m_lines.clear();
-
-    for (size_t i = 0; i + 1 < m_markers.size(); ++i) {
-        QPointF a = m_markers[i]->rect().center();
-        QPointF b = m_markers[i+1]->rect().center();
-        auto* line = m_scene->addLine(a.x(), a.y(), b.x(), b.y(),
-                                      QPen(QColor(255, 210, 60), 1.5, Qt::DashLine));
-        line->setZValue(1);
-        m_lines.push_back(line);
-    }
 }
 
 // ---------------------------------------------------------------------------

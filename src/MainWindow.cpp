@@ -22,11 +22,11 @@ MainWindow::MainWindow(QWidget* parent)
     setWindowIcon(icon);
 
     // Central widget
-    m_mapengine = new MapEngine(this);
-    setCentralWidget(m_mapengine);
+    m_mapEngine = new MapEngine(this);
+    setCentralWidget(m_mapEngine);
 
-    connect(m_mapengine, &MapEngine::waypointAdded,   this, &MainWindow::onWaypointAdded);
-    connect(m_mapengine, &MapEngine::waypointRemoved, this, &MainWindow::onWaypointRemoved);
+    connect(m_mapEngine, &MapEngine::waypointAdded,   this, &MainWindow::onWaypointAdded);
+    connect(m_mapEngine, &MapEngine::waypointRemoved, this, &MainWindow::onWaypointRemoved);
 
     // Toolbar [SDD-041, SDD-042, SDD-043]
     QToolBar* toolBar = addToolBar("Mission");
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     // [SDD-042] "Remove Last" removes the most recently placed waypoint.
     auto* undo = toolBar->addAction("Remove Last");
-    connect(undo, &QAction::triggered, m_mapengine, &MapEngine::removeLastWaypoint);
+    connect(undo, &QAction::triggered, m_mapEngine, &MapEngine::removeLastWaypoint);
 
     // [SDD-043] "Clear All" removes all waypoints and resets the mission.
     auto* clear = toolBar->addAction("Clear All");
@@ -100,6 +100,7 @@ void MainWindow::setupLogPanel() {
 }
 
 // ---------------------------------------------------------------------------
+// SDD-030, SDD-032
 // logMessage — appends a timestamped, HTML-coloured line to the log pane.
 // ---------------------------------------------------------------------------
 void MainWindow::logMessage(const QString& msg) {
@@ -170,9 +171,9 @@ void MainWindow::onUpload() {
     for (const Waypoint& wp : traj) {
         QString color;
         switch (wp.type) {
-        case WaypointType::TAKEOFF: color = "#e5c07b"; break; //Green
-        case WaypointType::CRUISE:  color = "#FAFAFA"; break; //Blue
-        case WaypointType::LAND:    color = "#e5c07b"; break; //Red
+        case WaypointType::TAKEOFF: color = "#e5c07b"; break; //Amber
+        case WaypointType::CRUISE:  color = "#FAFAFA"; break; //white
+        case WaypointType::LAND:    color = "#e5c07b"; break; //Amber
         }
 
         QString line = QString("[%1] %2  x=%3  y=%4  alt=%5m")
@@ -206,8 +207,8 @@ void MainWindow::onUpload() {
 // [SDD-043] → SRD-006  Clear All: removes all waypoints from map and mission model.
 // ---------------------------------------------------------------------------
 void MainWindow::onClear() {
-    m_mapengine->clearAll();
-    m_mission.clear();
+    m_mapEngine->clearAll();
+    //m_mission.clear();
     logMessage("Mission cleared.");
     updateStatus();
 }

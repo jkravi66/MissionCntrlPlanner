@@ -398,6 +398,143 @@ private slots:
         QVERIFY(!mm.isValid());
     }
 
+    // -------------------------------------------------------------------------
+    //  Test ID         : TEST-026
+    //  Verifies        : SRD-005, SDD-024
+    //  Test Type       : Robust
+    //  Test Description: This test verifies removeLastWaypoint() on an empty list is a no-op
+    //                    and does not alter the waypoint count (robustness / guard check).
+    // -------------------------------------------------------------------------
+    void test_026_removeLastWaypoint_onEmptyList_isNoOp()
+    {
+        MissionManager mm;
+
+        // Pre-condition: list is empty
+        QCOMPARE((int)mm.rawPoints().size(), 0);
+
+        // Call on empty list — must not crash and count must remain 0
+        mm.removeLastWaypoint();
+        QCOMPARE((int)mm.rawPoints().size(), 0);
+
+        // Mission must still be invalid (no waypoints to work with)
+        QVERIFY(!mm.isValid());
+    }
+
+    // -------------------------------------------------------------------------
+    //  Test ID         : TEST-027
+    //  Verifies        : SDD-012, SDD-013, SRD-011, SRD-012, SRD-014
+    //  Test Type       : Nominal
+    //  Test Description: This test verifies buildTrajectory() on the minimum valid mission
+    //                    (2 raw points) produces exactly 4 waypoints:
+    //                    1 TAKEOFF + 2 CRUISE + 1 LAND = 4 total.
+    // -------------------------------------------------------------------------
+    void test_027_buildTrajectory_twoRawPoints_yieldsFourWaypoints()
+    {
+        MissionManager mm;
+        mm.addWaypoint(0.0, 0.0);
+        mm.addWaypoint(10.0, 5.0);
+
+        QVERIFY(mm.isValid());
+
+        auto traj = mm.buildTrajectory();
+
+        // Total count: TAKEOFF + CRUISE(pt0) + CRUISE(pt1) + LAND = 4
+        QCOMPARE((int)traj.size(), 4);
+
+        // Confirm type sequence
+        QCOMPARE(traj[0].type, WaypointType::TAKEOFF);
+        QCOMPARE(traj[1].type, WaypointType::CRUISE);
+        QCOMPARE(traj[2].type, WaypointType::CRUISE);
+        QCOMPARE(traj[3].type, WaypointType::LAND);
+    }
+
+    // -------------------------------------------------------------------------
+    //  Test ID         : TEST-028
+    //  Verifies        : SDD-012, SDD-013, SRD-011, SRD-012
+    //  Test Type       : Nominal
+    //  Test Description: This test verifies that TAKEOFF shares its x,y coordinates with
+    //                    CRUISE[0] (the first raw point), and that LAND shares its x,y
+    //                    coordinates with the last CRUISE waypoint (the last raw point).
+    //                    This is the intended VTOL behaviour: vertical ascent and descent
+    //                    in place at the mission endpoints.
+    // -------------------------------------------------------------------------
+    void test_028_buildTrajectory_takeoffAndLand_colocatedWithFirstLastCruise()
+    {
+        MissionManager mm;
+        mm.addWaypoint(3.0, 7.0);
+        mm.addWaypoint(15.0, 0.0);
+        mm.addWaypoint(30.0, -4.0);
+
+        auto traj = mm.buildTrajectory();
+        // Expected layout: [TAKEOFF, CRUISE(3,7), CRUISE(15,0), CRUISE(30,-4), LAND]
+        QCOMPARE((int)traj.size(), 5);
+
+        const Waypoint& takeoff    = traj[0];
+        const Waypoint& firstCruise = traj[1];
+        const Waypoint& lastCruise  = traj[3];
+        const Waypoint& land        = traj[4];
+
+        // TAKEOFF must be co-located with CRUISE[0]
+        QCOMPARE(takeoff.type, WaypointType::TAKEOFF);
+        QCOMPARE(firstCruise.type, WaypointType::CRUISE);
+        QCOMPARE(takeoff.x, firstCruise.x);
+        QCOMPARE(takeoff.y, firstCruise.y);
+
+        // LAND must be co-located with the last CRUISE
+        QCOMPARE(land.type, WaypointType::LAND);
+        QCOMPARE(lastCruise.type, WaypointType::CRUISE);
+        QCOMPARE(land.x, lastCruise.x);
+        QCOMPARE(land.y, lastCruise.y);
+    }
+
+    // -------------------------------------------------------------------------
+    //  Test ID         : TEST-029
+    //  Verifies        : SRD-010, SDD-001, SDD-012, SDD-013
+    //  Test Type       : Robust
+    //  Test Description: This test verifies that addWaypoint() correctly stores negative
+    //                    x and y coordinates, that isValid() accepts them, and that
+    //                    buildTrajectory() propagates the negative values unchanged through
+    //                    TAKEOFF, CRUISE, and LAND waypoints. Covers the negative quadrant
+    //                    of the scene coordinate space (scene bounds: -500 to +500).
+    // -------------------------------------------------------------------------
+    void test_029_addWaypoint_negativeCoordinates_storedAndPropagatedCorrectly()
+    {
+        MissionManager mm;
+        mm.addWaypoint(-200.0, -350.0);
+        mm.addWaypoint(-50.0,  -10.0);
+
+        // Coordinates must be stored exactly as given
+        QCOMPARE(mm.rawPoints()[0].first,  -200.0);
+        QCOMPARE(mm.rawPoints()[0].second, -350.0);
+        QCOMPARE(mm.rawPoints()[1].first,   -50.0);
+        QCOMPARE(mm.rawPoints()[1].second,  -10.0);
+
+        // Negative-coordinate mission must be valid (well-separated points)
+        QVERIFY(mm.isValid());
+
+        auto traj = mm.buildTrajectory();
+        QCOMPARE((int)traj.size(), 4);   // TAKEOFF + 2 CRUISE + LAND
+
+        // TAKEOFF at first raw point
+        QCOMPARE(traj[0].type, WaypointType::TAKEOFF);
+        QCOMPARE(traj[0].x, -200.0);
+        QCOMPARE(traj[0].y, -350.0);
+
+        // CRUISE waypoints retain negative coordinates
+        QCOMPARE(traj[1].type, WaypointType::CRUISE);
+        QCOMPARE(traj[1].x, -200.0);
+        QCOMPARE(traj[1].y, -350.0);
+
+        QCOMPARE(traj[2].type, WaypointType::CRUISE);
+        QCOMPARE(traj[2].x,  -50.0);
+        QCOMPARE(traj[2].y,  -10.0);
+
+        // LAND at last raw point
+        QCOMPARE(traj[3].type, WaypointType::LAND);
+        QCOMPARE(traj[3].x,  -50.0);
+        QCOMPARE(traj[3].y,  -10.0);
+    }
+
 };
 
 testMissionPlanner::testMissionPlanner() {}

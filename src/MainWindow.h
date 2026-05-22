@@ -23,10 +23,10 @@ private slots:
 private:
     void updateStatus();        // SDD-051, SDD-052, SDD-053, SDD-054
     void setupLogPanel();       // SDD-030, SDD-031, SDD-032
-    void logMessage(const QString& msg);
-    MissionManager m_mission;
-    MapEngine*     m_mapengine;
-    QLabel*        m_status;
+    void logMessage(const QString& msg);  // SDD-030, SDD-032
+    MissionManager  m_mission;
+    MapEngine*      m_mapEngine;
+    QLabel*         m_status;
     QDockWidget*    m_logDock;
     QTextEdit*      m_logView;
 };

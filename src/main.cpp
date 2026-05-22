@@ -1,8 +1,9 @@
 #include "MainWindow.h"
 
 #include <QApplication>
-#include <QFile.h>
+#include <QIcon>
 
+// SYS-009
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

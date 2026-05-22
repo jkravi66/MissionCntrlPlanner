@@ -22,12 +22,11 @@ signals:
     void waypointRemoved();
 
 protected:
-    void mousePressEvent(QMouseEvent* event) override;  // SDD-021
+    void mousePressEvent(QMouseEvent* event) override;  // SDD-021, SDD-022
     void wheelEvent(QWheelEvent* event) override;       // SDD-021
 
 private:
     void drawGrid();            // SDD-020
-    void redrawLines();         // SDD-022
     void refreshColors();       // SDD-023
 
     QGraphicsScene*                    m_scene;

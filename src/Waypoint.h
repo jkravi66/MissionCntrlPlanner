@@ -1,8 +1,6 @@
 #ifndef WAYPOINT_H
 #define WAYPOINT_H
 
-#pragma once
-
 // SDD-002
 // WaypointType enum defines the three mission phases for a VTOL trajectory.
 enum class WaypointType {
@@ -17,8 +15,8 @@ inline const char* typeToString(WaypointType t) {
     case WaypointType::TAKEOFF: return "TAKEOFF";
     case WaypointType::CRUISE:  return "CRUISE";
     case WaypointType::LAND:    return "LAND";
+	default:                    return "UNKNOWN";
     }
-    return "UNKNOWN";
 }
 
 // SDD-001

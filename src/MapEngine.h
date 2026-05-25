@@ -8,6 +8,7 @@
 #include <QPointF>
 #include <vector>
 
+// MapEngine
 class MapEngine : public QGraphicsView {
     Q_OBJECT
 

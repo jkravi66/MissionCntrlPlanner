@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QDockWidget>
 
+// MainWindow
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:

@@ -85,7 +85,7 @@ private slots:
     //  Test Type       : Normal
     //  Test Description: This test verifies isValid() returns true when waypoints ‘x’ distance exactly at DUPLICATE_THRESHOLD
     //
-    void test_006_isValid_boundaryThresholdx_rejected()
+    void test_006_isValid_boundaryThresholdx_accepted()
     {
         MissionManager mm;
         mm.addWaypoint(0.0, 0.0);

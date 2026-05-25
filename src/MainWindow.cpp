@@ -120,7 +120,7 @@ void MainWindow::logMessage(const QString& msg) {
 
 // ---------------------------------------------------------------------------
 // onWaypointAdded
-// [SRD-010]  Store the newly placed waypoint in MissionManager and log it.
+// SRD-010 - Store the newly placed waypoint in MissionManager and log it.
 // ---------------------------------------------------------------------------
 void MainWindow::onWaypointAdded(QPointF pos) {
     m_mission.addWaypoint(pos.x(), pos.y());
@@ -136,7 +136,7 @@ void MainWindow::onWaypointAdded(QPointF pos) {
 
 // ---------------------------------------------------------------------------
 // onWaypointRemoved
-// [SRD-005]  Remove the last waypoint from MissionManager and log it.
+// SRD-005 - Remove the last waypoint from MissionManager and log it.
 // ---------------------------------------------------------------------------
 void MainWindow::onWaypointRemoved() {
     m_mission.removeLastWaypoint();
@@ -208,7 +208,6 @@ void MainWindow::onUpload() {
 // ---------------------------------------------------------------------------
 void MainWindow::onClear() {
     m_mapEngine->clearAll();
-    //m_mission.clear();
     logMessage("Mission cleared.");
     updateStatus();
 }

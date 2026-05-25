@@ -1,1 +1,19 @@
-Mission Planner is a Qt6-based desktop application that enables operators to plan unmanned aerial vehicle missions by placing waypoints on an interactive 2D map canvas. The application automatically constructs a VTOL flight trajectory — comprising takeoff, cruise, and landing phases — validates the mission against defined safety constraints, and outputs the planned waypoint sequence for upload. Requirements are specified across three levels: System (SYS), Software Requirements (SRD), and Software Design Description (SDD), with full bidirectional traceability to implementation and test. A suite of automated unit tests is provided to verify the core mission logic independently of the graphical interface.
+# Prerequisites
+- Qt 6.2+ with Widgets and Svg modules
+- CMake ≥ 3.16
+- C++17 compiler (GCC 10+ / MSVC 2019+)
+
+# Build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+
+# Run
+./build/missionPlanner
+
+# Run Tests (headless)
+cd build
+QT_QPA_PLATFORM=offscreen ctest --output-on-failure
+
+# Requirements & Traceability
+See docs/Mission Planner.docx — contains SYS/SRD/SDD requirements
+and the full bidirectional traceability matrix.
